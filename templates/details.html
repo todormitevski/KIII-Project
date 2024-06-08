@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container pt-5 mb-5">
+        <div class="row">
+            <div class="col-sm">
+                <div class="bg-light justify-content-center align-items-center shadow-lg p-3 mb-5 bg-white rounded"
+                     style="max-height: 70vh; max-width: 50vh">
+                    <img src="{{ event.poster.url }}" class="img-fluid" style=" max-height: 70vh; max-width: 40vh"
+                        alt="card_image">
+                </div>
+            </div>
+            <div class="col-sm">
+                <h5 class=" text-dark">Name: {{ event.name }}</h5>
+                <h5 class=" text-dark">Datetime: {{ event.datetime }}</h5>
+                <a href="{% url 'delete event' event.id %}" class="btn btn-danger w-40 rounded-0">Delete</a>
+                <a href="{% url 'edit event' event.id %}" class="btn btn-info w-40 rounded-0">Edit</a>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

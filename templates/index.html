@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="row">
+
+            {% for event in events %}
+                <div class="col-4 my-5">
+                    <div class="card mx-auto" style="width: 18rem;">
+                        <img src="{{ event.poster.url }}" class="card-img-top" style="height: 400px" alt="card_image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.name }}</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <p><u>Participants</u></p>
+                            <div class="d-flex justify-content-around">
+                                <a href="/event/details/{{ event.id }}/" class="btn btn-primary">Details</a>
+                                <a href="/event/edit/{{ event.id }}/" class="btn btn-info">Edit</a>
+                                <a href="/event/delete/{{ event.id }}/" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+{% endblock %}
