@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin12345
+      POSTGRES_PASSWORD: admin
 
   web:
     build: .
@@ -17,6 +17,7 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgres://postgres:admin12345@db:5432/postgres
+      - DATABASE_URL=postgres://postgres:admin@db:5432/postgres
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
+      - DB_HOST=db

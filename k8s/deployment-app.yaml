@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kiii-deployment
+  namespace: kiii-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kiii
+  template:
+    metadata:
+      labels:
+        app: kiii
+    spec:
+      containers:
+        - name: kiii
+          image: todormitevski/kiii-project:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: kiii-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: kiii-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kiii-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kiii-config
+                  key: POSTGRES_URL
+            - name: DATABASE_URL
+              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service.kiii-namespace.svc.cluster.local:5432/$(POSTGRES_DB)"
+            - name: DB_HOST
+              value: "postgres-service.kiii-namespace.svc.cluster.local"
