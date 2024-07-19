@@ -8,11 +8,11 @@ while ! nc -z $DB_HOST 5432; do
 done
 echo "Database ready"
 
-python manage.py collectstatic --noinput
+#python manage.py collectstatic --noinput
 python manage.py migrate
 
 echo "Creating superuser..."
-python manage.py createsuperuser --noinput --username admin --email "" --password admin || true
+python manage.py createsuperuser --noinput --username admin --email "" || true
 
 python manage.py shell -c "
 from django.contrib.auth import get_user_model;

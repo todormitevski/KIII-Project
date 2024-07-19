@@ -4,7 +4,7 @@ metadata:
   name: kiii-deployment
   namespace: kiii-namespace
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: kiii
