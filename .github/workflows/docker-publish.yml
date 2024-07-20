@@ -26,7 +26,7 @@ jobs:
 
       - name: Check for required files
         run: |
-          required_files=("Dockerfile" "docker-compose.yaml" "entrypoint.sh" "requirements.txt")
+          required_files=("Dockerfile" "docker-compose.yaml" "requirements.txt")
           for file in "${required_files[@]}"; do
             if [ ! -f "$file" ]; then
               echo "Error: $file is missing!"

@@ -3,21 +3,29 @@ version: '3.9'
 services:
   db:
     image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "5432:5432"
 
   web:
     build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py createsuperuser --noinput --username ${SUPERUSER_USERNAME} --email ${SUPERUSER_EMAIL}
+             python manage.py runserver 0.0.0.0:8080"
     volumes:
       - .:/app
     ports:
       - "8080:8080"
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=postgres://postgres:admin@db:5432/postgres
-      - PYTHONDONTWRITEBYTECODE=1
-      - PYTHONUNBUFFERED=1
-      - DB_HOST=db
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:

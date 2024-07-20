@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
-  namespace: kiii-namespace
+  name: db-sts
+  namespace: events-ns
 spec:
-  serviceName: "postgres-service"
+  serviceName: "postgres"
   replicas: 3
   selector:
     matchLabels:
@@ -19,31 +19,43 @@ spec:
           image: postgres:13
           ports:
             - containerPort: 5432
-              name: postgres
           env:
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
-                  name: postgres-config
+                  name: db-cm
                   key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
+                configMapKeyRef:
+                  name: db-cm
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
+                configMapKeyRef:
+                  name: db-secret
                   key: POSTGRES_PASSWORD
           volumeMounts:
-            - name: postgres-ps
+            - name: db-data
               mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
-        name: postgres-ps
+        name: db-data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
             storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-svc
+  namespace: events-ns
+spec:
+  ports:
+    - port: 5432
+      name: postgres
+  clusterIP: None
+  selector:
+    app: postgres
