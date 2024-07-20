@@ -39,6 +39,21 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: SECRET_KEY
+            - name: SUPERUSER_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-cm
+                  key: SUPERUSER_USERNAME
+            - name: SUPERUSER_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-cm
+                  key: SUPERUSER_EMAIL
+            - name: SUPERUSER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SUPERUSER_PASSWORD
             - name: DATABASE_HOST
               value: db-svc
             - name: DATABASE_PORT
