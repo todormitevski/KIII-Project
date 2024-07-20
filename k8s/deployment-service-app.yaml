@@ -26,7 +26,7 @@ spec:
                   key: DATABASE_NAME
             - name: DATABASE_USER
               valueFrom:
-                secretKeyRef:
+                configMapKeyRef:
                   name: app-cm
                   key: DATABASE_USER
             - name: DATABASE_PASSWORD
@@ -34,8 +34,13 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: DATABASE_PASSWORD
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SECRET_KEY
             - name: DATABASE_HOST
-              value: postgres
+              value: db-svc
             - name: DATABASE_PORT
               value: "5432"
 ---

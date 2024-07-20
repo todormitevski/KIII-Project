@@ -4,7 +4,7 @@ metadata:
   name: db-sts
   namespace: events-ns
 spec:
-  serviceName: "postgres"
+  serviceName: "db-sts"
   replicas: 3
   selector:
     matchLabels:
@@ -32,7 +32,7 @@ spec:
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: db-secret
                   key: POSTGRES_PASSWORD
           volumeMounts:

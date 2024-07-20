@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 
 COPY . /app/
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8080"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py create_superuser && python manage.py runserver 0.0.0.0:8080"]
