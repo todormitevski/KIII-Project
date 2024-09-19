@@ -1,24 +1,14 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: ingress-middleware
-  namespace: events-ns
-spec:
-  headers:
-    customRequestHeaders:
-      X-Custom-Header: "Default"
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: events-ing
   namespace: events-ns
   annotations:
-    traefik.ingress.kubernetes.io/router.middlewares: events-ns-ingress-middleware@kubernetescrd
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  ingressClassName: traefik
   rules:
-    - host: events-app.local
+    - host: events-app.com
       http:
         paths:
           - path: /
@@ -27,4 +17,4 @@ spec:
               service:
                 name: app-svc
                 port:
-                  number: 8080
+                  number: 80
